@@ -18,7 +18,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   add_compile_options(-fstandalone-debug)
 endif()
 
-set(CMAKE_CXX_FLAGS "-Wno-unused-variable -Wno-switch -Wno-trigraphs")
+set(CMAKE_CXX_FLAGS "-Wno-unused-variable -Wno-switch -Wno-trigraphs -Wno-enum-constexpr-conversion")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ffast-math")
