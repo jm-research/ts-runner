@@ -5,11 +5,10 @@ project(
   LANGUAGES C CXX
 )
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE "Debug")
-set(CMAKE_CXX_COMPILER "clang++")
 set(project_version "${${PROJECT_NAME}_VERSION}")
 
 message(STATUS "Project '${PROJECT_NAME}', version: '${project_version}'")
@@ -19,14 +18,25 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   add_compile_options(-fstandalone-debug)
 endif()
 
+set(CMAKE_CXX_FLAGS "-Wno-unused-variable -Wno-switch -Wno-trigraphs")
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ffast-math")
+endif()
+
 # CMake helpers:
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
+include_directories(thirdparty/fmt/include/)
+include_directories(thirdparty/magic_enum)
+
+add_subdirectory(thirdparty/doctest)
+add_subdirectory(thirdparty/tracy)
+add_subdirectory(thirdparty/fmt)
+
 include(CTest)
 enable_testing()
-
-find_package(Boost REQUIRED)
 
 include_directories(include)
 
@@ -41,7 +51,3 @@ list(APPEND TSRUNNER_SRCS ${LIB_PATH})
 
 add_library(${STATIC_LIB_NAME} STATIC ${TSRUNNER_SRCS})
 target_link_libraries(${STATIC_LIB_NAME})
-target_include_directories(${STATIC_LIB_NAME} SYSTEM PRIVATE include)
-target_include_directories(${STATIC_LIB_NAME} SYSTEM PRIVATE ${BOOST_INCLUDE_DIRS})
-
-add_subdirectory(unittests)
