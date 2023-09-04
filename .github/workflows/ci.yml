@@ -20,9 +20,8 @@ jobs:
          sudo apt-get update
          sudo apt-get install cmake g++ clang-15 libgtest-dev libgmock-dev make
       - uses: actions/checkout@v3
-      - name: git submodule update
-        run: |
-          git submodule update --init --recursive
+        with:
+          submodules: recursive
       - name: Generate makefile using CMake
         run: |
           mkdir cmake_build
