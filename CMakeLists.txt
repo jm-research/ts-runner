@@ -51,6 +51,9 @@ file(GLOB_RECURSE LIB_PATH
 list(APPEND TSRUNNER_SRCS ${LIB_PATH})
 
 add_library(${STATIC_LIB_NAME} STATIC ${TSRUNNER_SRCS})
-target_link_libraries(${STATIC_LIB_NAME})
+target_link_libraries(${STATIC_LIB_NAME} fmt)
 
 add_subdirectory(unittests)
+
+add_executable(tscpp driver/main.cpp)
+target_link_libraries(tscpp tsrunner)
