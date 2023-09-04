@@ -30,6 +30,7 @@ include(CMakePackageConfigHelpers)
 
 include_directories(thirdparty/fmt/include/)
 include_directories(thirdparty/magic_enum)
+include_directories(thirdparty/tracy/public)
 
 add_subdirectory(thirdparty/doctest)
 add_subdirectory(thirdparty/tracy)
@@ -51,3 +52,5 @@ list(APPEND TSRUNNER_SRCS ${LIB_PATH})
 
 add_library(${STATIC_LIB_NAME} STATIC ${TSRUNNER_SRCS})
 target_link_libraries(${STATIC_LIB_NAME})
+
+add_subdirectory(unittests)
